@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    title="AEM Data Layer Settings"
+    xtype="dialog">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <tabpanel
+            jcr:primaryType="nt:unstructured"
+            xtype="tabpanel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <general
+                    jcr:primaryType="nt:unstructured"
+                    title="General Settings"
+                    xtype="panel">
+                    <items jcr:primaryType="cq:WidgetCollection">
+		                <environment
+		                    jcr:primaryType="nt:unstructured"
+		                    allowBlank="false"
+		                    fieldLabel="Environment"
+		                    name="./environment"
+		                    xtype="textfield" />
+		                <objectName
+		                    jcr:primaryType="nt:unstructured"
+		                    allowBlank="false"
+		                    defaultValue="digitalData"
+		                    fieldLabel="Object Name"
+		                    name="./objectName"
+		                    xtype="textfield" />
+		                <prettyPrint
+		                    jcr:primaryType="nt:unstructured"
+		                    fieldLabel="Pretty Print?"
+		                    name="./prettyPrint"
+		                    type="checkbox"
+		                    xtype="selection" />
+		                <prettyPrintTypeHint
+		                    jcr:primaryType="nt:unstructured"
+		                    value="Boolean"
+		                    name="./prettyPrint@TypeHint"
+		                    xtype="hidden" />
+		                <siteId
+		                    jcr:primaryType="nt:unstructured"
+		                    allowBlank="false"
+		                    fieldLabel="Site ID"
+		                    name="./siteId"
+		                    xtype="textfield" />
+		                <siteRootLevel
+		                    jcr:primaryType="nt:unstructured"
+		                    allowBlank="false"
+		                    fieldLabel="Site Root Level"
+		                    defaultValue="1"
+		                    name="./siteRootLevel"
+		                    xtype="numberfield" />
+                    </items>
+                </general>
+                <page
+                    jcr:primaryType="nt:unstructured"
+                    title="Page Settings"
+                    xtype="panel">
+                    <items jcr:primaryType="cq:WidgetCollection">
+		                <setAuthor
+		                    jcr:primaryType="nt:unstructured"
+		                    fieldLabel="Set Author?"
+		                    name="./setAuthor"
+		                    type="checkbox"
+		                    xtype="selection" />
+		                <setAuthorTypeHint
+		                    jcr:primaryType="nt:unstructured"
+		                    value="Boolean"
+		                    name="./setAuthor@TypeHint"
+		                    xtype="hidden" />
+		                <publisher
+		                    jcr:primaryType="nt:unstructured"
+		                    fieldLabel="Publisher"
+		                    name="./publisher"
+		                    xtype="textfield" />
+		                <urlPrefix
+		                    jcr:primaryType="nt:unstructured"
+		                    allowBlank="false"
+		                    fieldLabel="URL Prefix"
+		                    name="./urlPrefix"
+		                    xtype="textfield" />
+                    </items>
+                </page>
+            </items>
+        </tabpanel>
+    </items>
+</jcr:root>

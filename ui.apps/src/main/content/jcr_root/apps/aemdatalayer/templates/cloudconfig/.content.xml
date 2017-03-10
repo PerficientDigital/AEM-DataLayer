@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:description="AEM Data Layer configuration"
+    jcr:primaryType="cq:Template"
+    jcr:title="AEM DataLayer Configuration"
+    sling:resourceSuperType="cq/cloudserviceconfigs/templates/configpage"
+    allowedPaths="[/etc/cloudservices/aemdatalayer(/.*)?]"
+    ranking="{Long}90">
+    <jcr:content
+        cq:cloudservicename="aemdatalayer"
+        jcr:primaryType="cq:PageContent"
+        sling:resourceType="aemdatalayer/components/cloudconfig"/>
+</jcr:root>

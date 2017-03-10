@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/aemdatalayer">
+        <exclude pattern="/apps/aemdatalayer/install" />
+    </filter>
+    <filter root="/etc/cloudservices/aemdatalayer">
+        <include pattern="/etc/cloudservices/aemdatalayer/jcr:content" />
+    </filter>
+</workspaceFilter>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:rep="internal"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:template="/libs/cq/cloudserviceconfigs/templates/servicepage"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="AEM DataLayer"
+        sling:resourceType="cq/cloudserviceconfigs/components/servicepage"
+        componentReference="aemdatalayer/components/includedatalayer"
+        connectedWhen="property"
+        description="AEM DataLayer allows developers to easily expose data to Digital Marketing tools."
+        inclusionRank="{Long}-1"
+        ranking="15" />
+</jcr:root>
