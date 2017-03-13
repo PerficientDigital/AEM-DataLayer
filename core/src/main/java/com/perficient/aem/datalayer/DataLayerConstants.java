@@ -29,4 +29,5 @@ public interface DataLayerConstants {
 	public static final String DATA_KEY_ADDRESS = "address";
 	public static final String DATA_KEY_ATTRIBUTES = "attributes";
 	public static final String DATA_KEY_LANGUAGE = "language";
+	public static final String DATE_FORMAT="yyyy-MM-dd'T'HH:mm:ssX'00'";
 }

@@ -29,6 +29,8 @@ import org.slf4j.LoggerFactory;
 
 import com.day.cq.wcm.api.PageManager;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.perficient.aem.datalayer.DataLayerConstants;
 import com.perficient.aem.datalayer.api.ComponentDataElement;
 import com.perficient.aem.datalayer.api.DataLayer;
 
@@ -65,7 +67,7 @@ public class DataLayerModel extends DataLayer {
 	}
 
 	public String getJson() {
-		Gson gson = new Gson();
+		Gson gson = new GsonBuilder().setDateFormat(DataLayerConstants.DATE_FORMAT).create();
 		return gson.toJson(this);
 	}
 
