@@ -38,7 +38,7 @@ public class UserProfile extends BaseDataObject {
 
 	public Map<String, Object> getAttributes() {
 		if (!containsKey(DataLayerConstants.DATA_KEY_ATTRIBUTES)) {
-			put(DataLayerConstants.DATA_KEY_ATTRIBUTES, new HashMap<String, Object>());
+			return null;
 		}
 		return get(DataLayerConstants.DATA_KEY_ATTRIBUTES, new HashMap<String, Object>());
 	}
@@ -48,6 +48,9 @@ public class UserProfile extends BaseDataObject {
 	}
 
 	public Map<String, Object> getSocial() {
+		if (!containsKey(DATA_KEY_SOCIAL)) {
+			return null;
+		}
 		return get(DATA_KEY_SOCIAL, new HashMap<String, Object>());
 	}
 

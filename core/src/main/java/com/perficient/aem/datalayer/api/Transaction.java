@@ -36,6 +36,9 @@ public class Transaction extends CategorizableDataObject {
 	}
 
 	public List<Item> getItems() {
+		if (!containsKey(DataLayerConstants.DATA_KEY_ITEM)) {
+			return null;
+		}
 		return get(DataLayerConstants.DATA_KEY_ITEM, new ArrayList<Item>());
 	}
 

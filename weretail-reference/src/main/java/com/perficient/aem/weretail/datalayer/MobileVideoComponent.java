@@ -15,7 +15,10 @@
  */
 package com.perficient.aem.weretail.datalayer;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ValueMap;
@@ -43,15 +46,15 @@ public class MobileVideoComponent implements ComponentDataElement {
 
 	@Override
 	public void updateDataLayer(DataLayerModel dataLayer) {
-		List<Component> components = dataLayer.getComponents();
 
 		Component component = new Component();
 		component.getComponentInfo().setComponentID(resource.getPath());
 
 		ValueMap properties = resource.getValueMap();
-		component.getAttributes().put("video", properties.get("fileReference", String.class));
 
-		components.add(component);
+		component.addAttribute("video", properties.get("fileReference", String.class));
+
+		dataLayer.addComponent(component);
 	}
 
 }

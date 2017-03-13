@@ -38,7 +38,7 @@ public class Product extends CategorizableDataObject {
 	public List<ProductInfo> getLinkedProducts() {
 		List<ProductInfo> defaultLinkedProducts = new ArrayList<ProductInfo>();
 		if (!containsKey(DATA_KEY_LINKED_PRODUCT)) {
-			put(DATA_KEY_LINKED_PRODUCT, defaultLinkedProducts);
+			return null;
 		}
 		return get(DATA_KEY_LINKED_PRODUCT, defaultLinkedProducts);
 	}

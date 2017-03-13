@@ -38,10 +38,16 @@ public class User extends CategorizableDataObject {
 	}
 
 	public List<UserProfile> getProfiles() {
+		if(!containsKey(DataLayerConstants.DATA_KEY_PROFILE)){
+			return null;
+		}
 		return get(DataLayerConstants.DATA_KEY_PROFILE, new ArrayList<UserProfile>());
 	}
 
 	public Map<String, Object> getSegments() {
+		if(!containsKey(DATA_KEY_SEGMENT)){
+			return null;
+		}
 		return get(DATA_KEY_SEGMENT, new HashMap<String, Object>());
 	}
 

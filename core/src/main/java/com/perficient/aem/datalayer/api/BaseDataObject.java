@@ -47,7 +47,7 @@ public class BaseDataObject extends ValueMapDecorator {
 	 * @return the security object for this DataLayer Object
 	 */
 	public Object getSecurity() {
-		return get(DATA_ATTRIBUTE_SECURITY, Object.class);
+		return get(DATA_ATTRIBUTE_SECURITY);
 	}
 
 	/**

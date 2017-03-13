@@ -30,16 +30,25 @@ public class CategorizableDataObject extends BaseDataObject {
 
 	public static final String DATA_KEY_CATEGORY = "category";
 
+	public void addAttribute(String key, Object value){
+		Map<String, Object> attributes = getAttributes();
+		if(attributes == null){
+			attributes = new HashMap<String, Object>();
+			setAttributes(attributes);
+		}
+		attributes.put(key, value);
+	}
+	
 	public Map<String, Object> getAttributes() {
 		if (!containsKey(DataLayerConstants.DATA_KEY_ATTRIBUTES)) {
-			put(DataLayerConstants.DATA_KEY_ATTRIBUTES, new HashMap<String, Object>());
+			return null;
 		}
 		return get(DataLayerConstants.DATA_KEY_ATTRIBUTES, new HashMap<String, Object>());
 	}
 
 	public Category getCategory() {
 		if (!containsKey(DATA_KEY_CATEGORY)) {
-			put(DataLayerConstants.DATA_KEY_ATTRIBUTES, new Category());
+			return null;
 		}
 		return get(DATA_KEY_CATEGORY, Category.class);
 	}

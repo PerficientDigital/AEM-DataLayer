@@ -48,29 +48,37 @@ public class DataLayer extends ValueMapDecorator {
 		put(DATA_KEY_VERSION, "1.0");
 	}
 
-	public List<AccessCategory> getAccessCategories() {
-		HashMap<String, List<AccessCategory>> defaultPrivacy = new HashMap<String, List<AccessCategory>>();
-		List<AccessCategory> defaultAccessCategories = new ArrayList<AccessCategory>();
-		defaultPrivacy.put(DATA_KEY_ACCESS_CATEGORY, defaultAccessCategories);
-		if (!containsKey(DATA_KEY_PRIVACY)) {
-			put(DATA_KEY_COMPONENT, defaultPrivacy);
+	public void addComponent(Component component){
+		List<Component> components = getComponents();
+		if(components == null){
+			components = new ArrayList<Component>();
+			setComponents(components);
 		}
-		return get(DATA_KEY_COMPONENT, defaultPrivacy).get(DATA_KEY_ACCESS_CATEGORY);
+		components.add(component);
+	}
+
+	public List<AccessCategory> getAccessCategories() {
+		if (!containsKey(DATA_KEY_PRIVACY)) {
+			return null;
+		}
+		return get(DATA_KEY_COMPONENT, new HashMap<String, List<AccessCategory>>()).get(DATA_KEY_ACCESS_CATEGORY);
 	}
 
 	public Cart getCart() {
 		return get(DATA_KEY_CART, Cart.class);
 	}
-
+	
 	public List<Component> getComponents() {
-		List<Component> defaultComponents = new ArrayList<Component>();
 		if (!containsKey(DATA_KEY_COMPONENT)) {
-			put(DATA_KEY_COMPONENT, defaultComponents);
+			return null;
 		}
-		return get(DATA_KEY_COMPONENT, defaultComponents);
+		return get(DATA_KEY_COMPONENT, new ArrayList<Component>());
 	}
 
 	public List<EventInfo> getEvents() {
+		if (!containsKey(DATA_KEY_EVENT)) {
+			return null;
+		}
 		return get(DATA_KEY_EVENT, new ArrayList<EventInfo>());
 	}
 
@@ -83,11 +91,10 @@ public class DataLayer extends ValueMapDecorator {
 	}
 
 	public List<Product> getProducts() {
-		List<Product> defaultProducts = new ArrayList<Product>();
 		if (!containsKey(DATA_KEY_PRODUCT)) {
-			put(DATA_KEY_PRODUCT, defaultProducts);
+			return null;
 		}
-		return get(DATA_KEY_PRODUCT, defaultProducts);
+		return get(DATA_KEY_PRODUCT, new ArrayList<Product>());
 	}
 
 	public Transaction getTransaction() {
@@ -95,11 +102,10 @@ public class DataLayer extends ValueMapDecorator {
 	}
 
 	public List<User> getUsers() {
-		List<User> defaultUsers = new ArrayList<User>();
 		if (!containsKey(DATA_KEY_USER)) {
-			put(DATA_KEY_USER, defaultUsers);
+			return null;
 		}
-		return get(DATA_KEY_USER, defaultUsers);
+		return get(DATA_KEY_USER, new ArrayList<User>());
 	}
 
 	public String getVersion() {
