@@ -21,6 +21,8 @@ import java.util.List;
 
 import org.apache.sling.api.wrappers.ValueMapDecorator;
 
+import com.perficient.aem.datalayer.core.models.AEMDataLayerConfig;
+
 /**
  * This class represents a Digital Marketing DataLayer driven through AEM Pages
  * and Components.
@@ -30,7 +32,9 @@ import org.apache.sling.api.wrappers.ValueMapDecorator;
 public class DataLayer extends ValueMapDecorator {
 
 	public static final String DATA_KEY_ACCESS_CATEGORY = "accessCategory";
+
 	public static final String DATA_KEY_CART = "cart";
+
 	public static final String DATA_KEY_COMPONENT = "component";
 	public static final String DATA_KEY_EVENT = "event";
 	public static final String DATA_KEY_PAGE = "page";
@@ -40,13 +44,18 @@ public class DataLayer extends ValueMapDecorator {
 	public static final String DATA_KEY_TRANSACTION = "transaction";
 	public static final String DATA_KEY_USER = "user";
 	public static final String DATA_KEY_VERSION = "version ";
+	private final AEMDataLayerConfig config;
+	private final com.day.cq.wcm.api.Page page;
 
-	public DataLayer() {
+	public DataLayer(AEMDataLayerConfig config, com.day.cq.wcm.api.Page page) {
 		super(new HashMap<String, Object>());
+		this.config = config;
+		this.page = page;
 		put(DATA_KEY_EVENT, new ArrayList<EventInfo>());
 		put(DATA_KEY_PAGE, new Page());
 		put(DATA_KEY_VERSION, "1.0");
 	}
+
 
 	public void addComponent(Component component) {
 		List<Component> components = getComponents();
@@ -63,12 +72,15 @@ public class DataLayer extends ValueMapDecorator {
 		}
 		getProducts().add(product);
 	}
-
 	public List<AccessCategory> getAccessCategories() {
 		if (!containsKey(DATA_KEY_PRIVACY)) {
 			return null;
 		}
 		return get(DATA_KEY_COMPONENT, new HashMap<String, List<AccessCategory>>()).get(DATA_KEY_ACCESS_CATEGORY);
+	}
+
+	public com.day.cq.wcm.api.Page getAEMPage() {
+		return page;
 	}
 
 	public Cart getCart() {
@@ -80,6 +92,10 @@ public class DataLayer extends ValueMapDecorator {
 			return null;
 		}
 		return get(DATA_KEY_COMPONENT, new ArrayList<Component>());
+	}
+
+	public AEMDataLayerConfig getConfig() {
+		return this.config;
 	}
 
 	public List<EventInfo> getEvents() {

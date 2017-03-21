@@ -15,12 +15,11 @@
  */
 package com.perficient.aem.datalayer.core.models;
 
-import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.models.annotations.Model;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.perficient.aem.datalayer.DataLayerConstants;
+import com.perficient.aem.datalayer.api.DataLayer;
+import com.perficient.aem.datalayer.core.DataLayerUtil;
 
 /**
  * This class wraps the AEMDataLayer to enable EL bean access to the JSON
@@ -28,23 +27,16 @@ import com.perficient.aem.datalayer.DataLayerConstants;
  * 
  * @author danklco
  */
-@Model(adaptables = Resource.class)
+@Model(adaptables = SlingHttpServletRequest.class)
 public class AEMDataLayerManager {
-	private final DataLayerModel dataLayer;
+	private final DataLayer dataLayer;
 
-	public AEMDataLayerManager(Resource resource) {
-		dataLayer = resource.adaptTo(DataLayerModel.class);
+	public AEMDataLayerManager(SlingHttpServletRequest request) {
+		dataLayer = DataLayerUtil.getDataLayer(request);
 	}
 
 	public String getJson() {
-		String json = null;
-		if (dataLayer.getConfig().getPrettyPrint() == true) {
-			Gson gson = new GsonBuilder().setDateFormat(DataLayerConstants.DATE_FORMAT).setPrettyPrinting().create();
-			json = gson.toJson(dataLayer);
-		} else {
-			json = dataLayer.getJson();
-		}
-		return json;
+		return DataLayerUtil.toJSON(dataLayer);
 	}
 
 	public AEMDataLayerConfig getConfig() {

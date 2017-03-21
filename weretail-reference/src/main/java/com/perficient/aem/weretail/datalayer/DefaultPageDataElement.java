@@ -31,11 +31,11 @@ import com.day.cq.commons.jcr.JcrConstants;
 import com.day.cq.wcm.api.NameConstants;
 import com.perficient.aem.datalayer.api.Category;
 import com.perficient.aem.datalayer.api.ComponentDataElement;
+import com.perficient.aem.datalayer.api.DataLayer;
 import com.perficient.aem.datalayer.api.EventInfo;
 import com.perficient.aem.datalayer.api.Page;
 import com.perficient.aem.datalayer.api.PageInfo;
 import com.perficient.aem.datalayer.core.DataLayerUtil;
-import com.perficient.aem.datalayer.core.models.DataLayerModel;
 
 /**
  * Default model for AEM pages. Sets the default values.
@@ -47,7 +47,7 @@ import com.perficient.aem.datalayer.core.models.DataLayerModel;
 public class DefaultPageDataElement implements ComponentDataElement {
 
 	@Override
-	public void updateDataLayer(DataLayerModel dataLayer) {
+	public void updateDataLayer(DataLayer dataLayer) {
 		EventInfo event = new EventInfo();
 		event.setEventAction("pageLoad");
 		event.setEventName("Page Load");

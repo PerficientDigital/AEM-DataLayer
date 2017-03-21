@@ -15,8 +15,6 @@
  */
 package com.perficient.aem.datalayer.api;
 
-import com.perficient.aem.datalayer.core.models.DataLayerModel;
-
 /**
  * Interface for all component-based data elements to implement.
  * 
@@ -31,5 +29,5 @@ public interface ComponentDataElement {
 	 * @param dataLayer
 	 *            the data layer to update
 	 */
-	void updateDataLayer(DataLayerModel dataLayer);
+	void updateDataLayer(DataLayer dataLayer);
 }

@@ -15,18 +15,27 @@
  */
 package com.perficient.aem.datalayer.core.servlets;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
+import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
+import org.apache.sling.engine.SlingRequestProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.perficient.aem.datalayer.core.models.DataLayerModel;
+import com.day.cq.contentsync.handler.util.RequestResponseFactory;
+import com.perficient.aem.datalayer.api.DataLayer;
+import com.perficient.aem.datalayer.core.DataLayerUtil;
 
 /**
  * Servlet for testing the AEM DataLayer
@@ -40,21 +49,35 @@ public class DataLayerTestServlet extends SlingSafeMethodsServlet {
 	private static final long serialVersionUID = -1422202443028345759L;
 	private static final Logger log = LoggerFactory.getLogger(DataLayerTestServlet.class);
 
-	protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
+	@Reference
+	private RequestResponseFactory requestResponseFactory;
+
+	@Reference
+	private SlingRequestProcessor requestProcessor;
+
+	protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response)
+			throws IOException, ServletException {
 		log.trace("doGet");
 		String suffix = request.getRequestPathInfo().getSuffix();
-		log.debug("Retrieving data layer for {}", suffix);
 
 		if (StringUtils.isNotEmpty(suffix)) {
+			log.debug("Retrieving data layer for {}", suffix);
 			Resource resource = request.getResourceResolver().getResource(suffix);
 			if (resource != null) {
-				DataLayerModel digitalDataModel = resource.adaptTo(DataLayerModel.class);
-				if (digitalDataModel != null) {
+
+				HttpServletRequest req = requestResponseFactory.createRequest("GET", suffix + ".html");
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				HttpServletResponse resp = requestResponseFactory.createResponse(baos);
+				requestProcessor.processRequest(req, resp, request.getResourceResolver());
+
+				DataLayer dataLayer = DataLayerUtil.getDataLayer(req);
+				if (dataLayer != null) {
 					response.setContentType("application/json");
-					response.getWriter().write(digitalDataModel.getJson());
+					response.getWriter().write(DataLayerUtil.toJSON(dataLayer));
 				} else {
 					response.sendError(404, "No Data Layer found for " + suffix);
 				}
+
 			} else {
 				response.sendError(404, "No Resource found at " + suffix);
 			}

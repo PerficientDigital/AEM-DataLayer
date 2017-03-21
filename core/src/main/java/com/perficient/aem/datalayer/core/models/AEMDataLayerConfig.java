@@ -51,21 +51,24 @@ public class AEMDataLayerConfig {
 	 * @return the DataLayer configuration
 	 */
 	public static AEMDataLayerConfig getDataLayerConfig(Page page) {
-		log.trace("Finding Digital Data config for {}", page.getPath());
-		InheritanceValueMap properties = new HierarchyNodeInheritanceValueMap(page.getContentResource());
-		String[] cloudServices = properties.getInherited(PN_CLOUD_SERVICE_CONFIGS, new String[0]);
-		for (String cloudService : cloudServices) {
-			if (cloudService.startsWith(AEM_DATALAYER_CONFIG_PATH)) {
-				Page cloudServicePage = page.getPageManager().getContainingPage(cloudService);
-				if (cloudServicePage != null) {
-					return cloudServicePage.getContentResource().adaptTo(AEMDataLayerConfig.class);
-				} else {
-					log.warn("Cloud service not found at {}", cloudService);
+		if (page != null) {
+			log.trace("Finding Digital Data config for {}", page.getPath());
+			InheritanceValueMap properties = new HierarchyNodeInheritanceValueMap(page.getContentResource());
+			String[] cloudServices = properties.getInherited(PN_CLOUD_SERVICE_CONFIGS, new String[0]);
+			for (String cloudService : cloudServices) {
+				if (cloudService.startsWith(AEM_DATALAYER_CONFIG_PATH)) {
+					Page cloudServicePage = page.getPageManager().getContainingPage(cloudService);
+					if (cloudServicePage != null) {
+						return cloudServicePage.getContentResource().adaptTo(AEMDataLayerConfig.class);
+					} else {
+						log.warn("Cloud service not found at {}", cloudService);
+					}
 				}
 			}
+			log.warn("No Digital Data config found for {}", page.getPath());
 		}
-		log.warn("No Digital Data config found for {}", page.getPath());
 		return null;
+
 	}
 
 	@Inject

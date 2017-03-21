@@ -21,7 +21,7 @@ import org.apache.sling.models.annotations.Model;
 
 import com.perficient.aem.datalayer.api.Component;
 import com.perficient.aem.datalayer.api.ComponentDataElement;
-import com.perficient.aem.datalayer.core.models.DataLayerModel;
+import com.perficient.aem.datalayer.api.DataLayer;
 
 /**
  * Adds in the video details for the AEM Mobile Video component into the
@@ -40,7 +40,7 @@ public class MobileVideoComponent implements ComponentDataElement {
 	}
 
 	@Override
-	public void updateDataLayer(DataLayerModel dataLayer) {
+	public void updateDataLayer(DataLayer dataLayer) {
 
 		Component component = new Component();
 		component.getComponentInfo().setComponentID(resource.getPath());

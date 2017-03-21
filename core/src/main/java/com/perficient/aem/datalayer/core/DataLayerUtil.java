@@ -15,7 +15,13 @@
  */
 package com.perficient.aem.datalayer.core;
 
+import javax.servlet.ServletRequest;
+
 import com.day.cq.wcm.api.Page;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.perficient.aem.datalayer.DataLayerConstants;
+import com.perficient.aem.datalayer.api.DataLayer;
 import com.perficient.aem.datalayer.core.models.AEMDataLayerConfig;
 
 /**
@@ -25,13 +31,30 @@ import com.perficient.aem.datalayer.core.models.AEMDataLayerConfig;
  */
 public class DataLayerUtil {
 
-	public static String getSiteUrl(Page page, AEMDataLayerConfig config) {
+	public static final DataLayer getDataLayer(ServletRequest request) {
+		return (DataLayer) request.getAttribute(DataLayerConstants.REQUEST_PROPERTY_AEM_DATALAYER);
+	}
+
+	public static final String getSiteSubpath(Page page, AEMDataLayerConfig config) {
+		String path = page.getPath().replace(page.getAbsoluteParent(config.getSiteRootLevel()).getPath(), "");
+		return path;
+	}
+
+	public static final String getSiteUrl(Page page, AEMDataLayerConfig config) {
 		String subpath = getSiteSubpath(page, config);
 		return config.getUrlPrefix() + subpath + ".html";
 	}
 
-	public static String getSiteSubpath(Page page, AEMDataLayerConfig config) {
-		String path = page.getPath().replace(page.getAbsoluteParent(config.getSiteRootLevel()).getPath(), "");
-		return path;
+	public static final String toJSON(DataLayer dataLayer) {
+		String json = null;
+		GsonBuilder builder = null;
+		if (dataLayer.getConfig().getPrettyPrint() == true) {
+			builder = new GsonBuilder().setDateFormat(DataLayerConstants.DATE_FORMAT).setPrettyPrinting();
+		} else {
+			builder = new GsonBuilder().setDateFormat(DataLayerConstants.DATE_FORMAT);
+		}
+		Gson gson = builder.create();
+		json = gson.toJson(dataLayer);
+		return json;
 	}
 }

@@ -9,9 +9,9 @@ import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 import com.perficient.aem.datalayer.api.Component;
 import com.perficient.aem.datalayer.api.ComponentDataElement;
+import com.perficient.aem.datalayer.api.DataLayer;
 import com.perficient.aem.datalayer.api.ProductInfo;
 import com.perficient.aem.datalayer.core.DataLayerUtil;
-import com.perficient.aem.datalayer.core.models.DataLayerModel;
 
 @Model(adaptables = Resource.class, resourceType = {
 		"weretail/components/structure/product" }, adapters = ComponentDataElement.class)
@@ -31,7 +31,7 @@ public class ProductComponent implements ComponentDataElement {
 	}
 
 	@Override
-	public void updateDataLayer(DataLayerModel dataLayer) {
+	public void updateDataLayer(DataLayer dataLayer) {
 
 		com.perficient.aem.datalayer.api.Product product = new com.perficient.aem.datalayer.api.Product();
 		ProductInfo productInfo = product.getProductInfo();
