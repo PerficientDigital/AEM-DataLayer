@@ -18,7 +18,7 @@
    Adds the DataLayer to the page.
 
 --%><%@page session="false"%><%@include file="/libs/foundation/global.jsp"%><%@taglib prefix="sling2" uri="http://sling.apache.org/taglibs/sling" %>
-<sling2:adaptTo var="dataLayer" adaptable="${currentPage.contentResource}" adaptTo="com.perficient.aem.datalayer.core.models.AEMDataLayerManager" />
+<sling2:adaptTo var="dataLayer" adaptable="${slingRequest}" adaptTo="com.perficient.aem.datalayer.core.models.AEMDataLayerManager" />
 <script>
 	window.${dataLayer.config.objectName} = ${dataLayer.json}
 </script>

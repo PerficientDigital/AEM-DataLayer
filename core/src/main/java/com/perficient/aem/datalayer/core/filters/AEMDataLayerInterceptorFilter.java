@@ -70,7 +70,11 @@ public class AEMDataLayerInterceptorFilter implements Filter {
 			Resource resource = ((SlingHttpServletRequest) request).getResource();
 
 			DataLayer dataLayer = DataLayerUtil.getDataLayer(request);
-			updateDataLayer(resource, dataLayer);
+			try {
+				updateDataLayer(resource, dataLayer);
+			} catch (Exception e) {
+				log.warn("Exception updating DataLayer", e);
+			}
 		}
 
 		chain.doFilter(request, response);
@@ -109,7 +113,7 @@ public class AEMDataLayerInterceptorFilter implements Filter {
 		try {
 			cde = (ComponentDataElement) modelFactory.getModelFromResource(resource);
 		} catch (Exception e) {
-			log.debug("Exception adapting resource " + resource + " to ComponentDataElement: " + e);
+			log.debug("Exception adapting resource " + resource + " to ComponentDataElement", e);
 		}
 
 		if (cde != null) {
