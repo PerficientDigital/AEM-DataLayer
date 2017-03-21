@@ -24,12 +24,15 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+import org.apache.felix.scr.annotations.Properties;
+import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.sling.SlingFilter;
 import org.apache.felix.scr.annotations.sling.SlingFilterScope;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.factory.ModelFactory;
+import org.osgi.framework.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +50,8 @@ import com.perficient.aem.datalayer.core.models.AEMDataLayerConfig;
  * 
  * @author danklco
  */
-@SlingFilter(label = "AEM DataLayer Interceptor Filter", metatype = true, generateComponent = true, generateService = true, order = 0, scope = SlingFilterScope.COMPONENT)
+@SlingFilter(order = 0, scope = SlingFilterScope.COMPONENT)
+@Properties({ @Property(name = Constants.SERVICE_VENDOR, value = DataLayerConstants.SERVICE_VENDOR) })
 public class AEMDataLayerInterceptorFilter implements Filter {
 
 	private static final Logger log = LoggerFactory.getLogger(AEMDataLayerInterceptorFilter.class);

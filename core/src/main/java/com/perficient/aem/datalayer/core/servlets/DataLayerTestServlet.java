@@ -23,6 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.felix.scr.annotations.Properties;
+import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -30,10 +32,12 @@ import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
 import org.apache.sling.engine.SlingRequestProcessor;
+import org.osgi.framework.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.day.cq.contentsync.handler.util.RequestResponseFactory;
+import com.perficient.aem.datalayer.DataLayerConstants;
 import com.perficient.aem.datalayer.api.DataLayer;
 import com.perficient.aem.datalayer.core.DataLayerUtil;
 
@@ -44,6 +48,7 @@ import com.perficient.aem.datalayer.core.DataLayerUtil;
  *
  */
 @SlingServlet(resourceTypes = "aemdatalayer/components/cloudconfig", methods = "GET", extensions = "json", selectors = "datalayer")
+@Properties({ @Property(name = Constants.SERVICE_VENDOR, value = DataLayerConstants.SERVICE_VENDOR) })
 public class DataLayerTestServlet extends SlingSafeMethodsServlet {
 
 	private static final long serialVersionUID = -1422202443028345759L;

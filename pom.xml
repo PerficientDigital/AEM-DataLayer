@@ -15,13 +15,47 @@
 	<packaging>pom</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>AEM DataLayer</name>
-	<description>AEM DataLayer</description>
+	<description>Sling Models based DataLayer library for Adobe Experience Manager</description>
+	<url>https://github.com/PerficientDigital/AEM-DataLayer</url>
+
+	<organization>
+		<name>Perficient</name>
+		<url>http://www.perficient.com</url>
+	</organization>
 
 	<modules>
 		<module>core</module>
 		<module>weretail-reference</module>
 		<module>ui.apps</module>
 	</modules>
+
+	<issueManagement>
+		<url>https://github.com/PerficientDigital/AEM-DataLayer/issues</url>
+		<system>GitHub Issues</system>
+	</issueManagement>
+
+	<licenses>
+		<license>
+			<name>Apache 2.0 License</name>
+			<url>https://opensource.org/licenses/Apache-2.0</url>
+		</license>
+	</licenses>
+
+	<scm>
+		<url>https://github.com/PerficientDigital/AEM-DataLayer</url>
+		<connection>scm:git:git://github.com/PerficientDigital/AEM-DataLayer.git</connection>
+		<developerConnection>scm:git:git@github.com:PerficientDigital/AEM-DataLayer.git</developerConnection>
+	</scm>
+
+	<developers>
+		<developer>
+			<id>dan.klco</id>
+			<name>Dan Klco</name>
+			<email>dan.klco@perficient.com</email>
+			<url>https://www.danklco.com</url>
+			<organization>Perficient</organization>
+		</developer>
+	</developers>
 
 	<properties>
 		<aem.host>localhost</aem.host>
