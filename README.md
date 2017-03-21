@@ -6,7 +6,6 @@ specification produced by the W3C.
 It provides a flexible, extensible model for implementers to create a Data Layer in Adobe
 Experience Manager by implementing clean, reusable Java code.
 
-
 ## Modules
 
 The main parts of the template are:
@@ -21,7 +20,19 @@ The goal of this project is to create an easily extensible, flexible API for exp
 Digital Marketing tools. In order to use the AEM DataLayer on your project, you must create Sling
 Models to expose data to the DataLayer based on your needs.
 
+## Implementing Your Data Layer
 
+To get started, you may want to review the [weretail-reference project](https://github.com/PerficientDigital/AEM-DataLayer/tree/master/weretail-reference) to get a better idea of how to implement the AEM DataLayer for your project.
+
+The implementation process is pretty simple, you simply create Sling Models for each component you want to use to populate your DataLayer. Each Sling Model should implement the interface [ComponentDataElement](https://github.com/PerficientDigital/AEM-DataLayer/blob/master/core/src/main/java/com/perficient/aem/datalayer/api/ComponentDataElement.java) and specify a resource type as shown below:
+
+	@Model(adaptables = Resource.class, resourceType = {
+		"weretail/components/structure/page" }, adapters = ComponentDataElement.class)
+	public class DefaultPageDataElement implements ComponentDataElement {
+	
+As this is a Sling Model, you can inject any OSGi Service, Resource property or the Resource itself into your Model class.
+
+The [ComponentDataElement#updateDataLayer](https://github.com/PerficientDigital/AEM-DataLayer/blob/master/core/src/main/java/com/perficient/aem/datalayer/api/ComponentDataElement.java) method will be called by the AEM DataLayer API when your Sling Model is adapted from a Resource in order to update the DataLayer.
 
 ## How to build
 

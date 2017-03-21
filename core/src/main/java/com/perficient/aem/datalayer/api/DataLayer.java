@@ -48,13 +48,20 @@ public class DataLayer extends ValueMapDecorator {
 		put(DATA_KEY_VERSION, "1.0");
 	}
 
-	public void addComponent(Component component){
+	public void addComponent(Component component) {
 		List<Component> components = getComponents();
-		if(components == null){
+		if (components == null) {
 			components = new ArrayList<Component>();
 			setComponents(components);
 		}
 		components.add(component);
+	}
+
+	public void addProduct(Product product) {
+		if (!containsKey(DATA_KEY_PRODUCT)) {
+			put(DATA_KEY_PRODUCT, new ArrayList<Product>());
+		}
+		getProducts().add(product);
 	}
 
 	public List<AccessCategory> getAccessCategories() {
@@ -67,7 +74,7 @@ public class DataLayer extends ValueMapDecorator {
 	public Cart getCart() {
 		return get(DATA_KEY_CART, Cart.class);
 	}
-	
+
 	public List<Component> getComponents() {
 		if (!containsKey(DATA_KEY_COMPONENT)) {
 			return null;
