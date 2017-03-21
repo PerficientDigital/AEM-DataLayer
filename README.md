@@ -34,6 +34,19 @@ As this is a Sling Model, you can inject any OSGi Service, Resource property or 
 
 The [ComponentDataElement#updateDataLayer](https://github.com/PerficientDigital/AEM-DataLayer/blob/master/core/src/main/java/com/perficient/aem/datalayer/api/ComponentDataElement.java) method will be called by the AEM DataLayer API when your Sling Model is adapted from a Resource in order to update the DataLayer.
 
+## Configuring the AEM DataLayer Cloud Configuration
+
+Once you have installed the AEM DataLayer package, you can set up and configure it as such:
+
+ 1. Navigate to the [CloudServices Console](http://localhost:4502/etc/cloudservices.html)
+ 2. Scroll down to AEM DataLayer and add a DataLayer configuration:
+ 3. Click edit and configure all of the required settings under the General Settings and Page Settings tabs
+ 4. Navigate to your site root and edit the page
+ 5. Click Open Properties then the Cloud Services tab
+ 6. Add an AEM DataLayer configuration and then select your configuration
+ 
+From here, your page should automatically include the DataLayer. You can use the test feature to validate that your custom DataLayer classes are being evaluated.
+
 ## How to build
 
 To build all the modules run in the project root directory the following command with Maven 3:
