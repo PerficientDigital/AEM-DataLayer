@@ -40,6 +40,15 @@ public class Cart extends CategorizableDataObject {
 		return get(DATA_KEY_CART_ID, String.class);
 	}
 
+	public void addItem(Item item) {
+		List<Item> items = getItems();
+		if (items == null) {
+			items = new ArrayList<Item>();
+			setItems(items);
+		}
+		items.add(item);
+	}
+
 	public List<Item> getItems() {
 		if (!containsKey(DataLayerConstants.DATA_KEY_ITEM)) {
 			return null;
