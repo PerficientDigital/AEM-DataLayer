@@ -32,9 +32,7 @@ import com.perficient.aem.datalayer.core.models.AEMDataLayerConfig;
 public class DataLayer extends ValueMapDecorator {
 
 	public static final String DATA_KEY_ACCESS_CATEGORY = "accessCategory";
-
 	public static final String DATA_KEY_CART = "cart";
-
 	public static final String DATA_KEY_COMPONENT = "component";
 	public static final String DATA_KEY_EVENT = "event";
 	public static final String DATA_KEY_PAGE = "page";
@@ -56,7 +54,6 @@ public class DataLayer extends ValueMapDecorator {
 		put(DATA_KEY_VERSION, "1.0");
 	}
 
-
 	public void addComponent(Component component) {
 		List<Component> components = getComponents();
 		if (components == null) {
@@ -66,12 +63,22 @@ public class DataLayer extends ValueMapDecorator {
 		components.add(component);
 	}
 
+	public void addEvent(EventInfo event) {
+		List<EventInfo> events = getEvents();
+		if (events == null) {
+			events = new ArrayList<EventInfo>();
+			setEvents(events);
+		}
+		events.add(event);
+	}
+
 	public void addProduct(Product product) {
 		if (!containsKey(DATA_KEY_PRODUCT)) {
 			put(DATA_KEY_PRODUCT, new ArrayList<Product>());
 		}
 		getProducts().add(product);
 	}
+
 	public List<AccessCategory> getAccessCategories() {
 		if (!containsKey(DATA_KEY_PRIVACY)) {
 			return null;
