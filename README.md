@@ -20,6 +20,17 @@ The goal of this project is to create an easily extensible, flexible API for exp
 Digital Marketing tools. In order to use the AEM DataLayer on your project, you must create Sling
 Models to expose data to the DataLayer based on your needs.
 
+## Installing this Project
+
+The AEM DataLayer is compatible with AEM versions 6.3 and 6.2. To install this project on AEM, download the [latest release](https://github.com/PerficientDigital/AEM-DataLayer/releases) and install it into the [AEM Package Manager](https://docs.adobe.com/docs/en/aem/6-3/administer/content/package-manager.html).
+
+### Installing on AEM 6.2
+
+The AEM DataLayer requires Sling Models API version 1.3.2 or more recent. In order to install AEM DataLayer on AEM 6.2, you must download and install the following bundles:
+
+* [org.apache.sling.models.api : 1.3.2](http://search.maven.org/#artifactdetails%7Corg.apache.sling%7Corg.apache.sling.models.api%7C1.3.2%7Cbundle)
+* [org.apache.sling.models.impl : 1.3.8](http://search.maven.org/#artifactdetails%7Corg.apache.sling%7Corg.apache.sling.models.impl%7C1.3.8%7Cbundle)
+
 ## Implementing Your Data Layer
 
 To get started, you may want to review the [weretail-reference project](https://github.com/PerficientDigital/AEM-DataLayer/tree/master/weretail-reference) to get a better idea of how to implement the AEM DataLayer for your project.
