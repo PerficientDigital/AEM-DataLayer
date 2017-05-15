@@ -47,11 +47,9 @@ public class DataLayerUtil {
 
 	public static final String toJSON(DataLayer dataLayer) {
 		String json = null;
-		GsonBuilder builder = null;
+		GsonBuilder builder = new GsonBuilder().setDateFormat(DataLayerConstants.DATE_FORMAT);
 		if (dataLayer.getConfig().getPrettyPrint() == true) {
-			builder = new GsonBuilder().setDateFormat(DataLayerConstants.DATE_FORMAT).setPrettyPrinting();
-		} else {
-			builder = new GsonBuilder().setDateFormat(DataLayerConstants.DATE_FORMAT);
+			builder.setPrettyPrinting();
 		}
 		Gson gson = builder.create();
 		json = gson.toJson(dataLayer);

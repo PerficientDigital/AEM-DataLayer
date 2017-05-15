@@ -77,7 +77,7 @@ public class AEMDataLayerInterceptorFilter implements Filter {
 			try {
 				updateDataLayer(resource, dataLayer);
 			} catch (Exception e) {
-				log.warn("Exception updating DataLayer", e);
+				log.warn("Exception updating DataLayer for resource "+resource, e);
 			}
 		}
 
@@ -117,7 +117,7 @@ public class AEMDataLayerInterceptorFilter implements Filter {
 		try {
 			cde = (ComponentDataElement) modelFactory.getModelFromResource(resource);
 		} catch (Exception e) {
-			log.debug("Exception adapting resource " + resource + " to ComponentDataElement", e);
+			log.trace("Exception adapting resource " + resource + " to ComponentDataElement", e);
 		}
 
 		if (cde != null) {

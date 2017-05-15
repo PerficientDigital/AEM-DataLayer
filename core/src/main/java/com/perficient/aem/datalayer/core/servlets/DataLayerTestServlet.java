@@ -80,14 +80,15 @@ public class DataLayerTestServlet extends SlingSafeMethodsServlet {
 					response.setContentType("application/json");
 					response.getWriter().write(DataLayerUtil.toJSON(dataLayer));
 				} else {
+					log.warn("No Data Layer found for {}", suffix);
 					response.sendError(404, "No Data Layer found for " + suffix);
 				}
 
 			} else {
+				log.warn("No Resource found at {}", suffix);
 				response.sendError(404, "No Resource found at " + suffix);
 			}
 		} else {
-
 			response.sendError(400, "Missing Suffix");
 		}
 
