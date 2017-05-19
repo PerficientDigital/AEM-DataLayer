@@ -62,7 +62,7 @@ public class DefaultPageDataElement implements ComponentDataElement {
 
 		List<String> breadcrumbs = new ArrayList<String>();
 		com.day.cq.wcm.api.Page currentPage = dataLayer.getAEMPage();
-		while (currentPage.getDepth() > dataLayer.getConfig().getSiteRootLevel()) {
+		while (currentPage != null && currentPage.getDepth() > dataLayer.getConfig().getSiteRootLevel()) {
 			breadcrumbs.add(currentPage.getTitle());
 			currentPage = currentPage.getParent();
 		}
