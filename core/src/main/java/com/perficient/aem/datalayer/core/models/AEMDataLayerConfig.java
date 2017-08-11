@@ -83,6 +83,7 @@ public class AEMDataLayerConfig {
 	private Boolean prettyPrint;
 
 	@Inject
+	@Optional
 	private String publisher;
 
 	@Inject
