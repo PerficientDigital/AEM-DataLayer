@@ -31,6 +31,7 @@ import org.apache.felix.scr.annotations.sling.SlingFilter;
 import org.apache.felix.scr.annotations.sling.SlingFilterScope;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.models.factory.ModelClassException;
 import org.apache.sling.models.factory.ModelFactory;
 import org.osgi.framework.Constants;
 import org.slf4j.Logger;
@@ -71,13 +72,13 @@ public class AEMDataLayerInterceptorFilter implements Filter {
 
 		if (request instanceof SlingHttpServletRequest && isApplicable((SlingHttpServletRequest) request)) {
 
-			Resource resource = ((SlingHttpServletRequest) request).getResource();
+			SlingHttpServletRequest slingRequest = (SlingHttpServletRequest) request;
 
-			DataLayer dataLayer = DataLayerUtil.getDataLayer(request);
+			DataLayer dataLayer = DataLayerUtil.getDataLayer(slingRequest);
 			try {
-				updateDataLayer(resource, dataLayer);
+				updateDataLayer(slingRequest, dataLayer);
 			} catch (Exception e) {
-				log.warn("Exception updating DataLayer for resource "+resource, e);
+				log.warn("Exception updating DataLayer for resource " + slingRequest.getResource().getPath(), e);
 			}
 		}
 
@@ -109,19 +110,33 @@ public class AEMDataLayerInterceptorFilter implements Filter {
 		}
 	}
 
-	private void updateDataLayer(Resource resource, DataLayer dataLayerModel) {
+	private void updateDataLayer(SlingHttpServletRequest request, DataLayer dataLayerModel) {
 
-		log.trace("Updating DataLayer with {}", resource);
+		log.trace("Updating DataLayer with {}", request.getResource().getPath());
 		ComponentDataElement cde = null;
+		Resource resource = request.getResource();
 
 		try {
-			cde = (ComponentDataElement) modelFactory.getModelFromResource(resource);
+			cde = (ComponentDataElement) modelFactory.getModelFromRequest(request);
 		} catch (Exception e) {
-			log.trace("Exception adapting resource " + resource + " to ComponentDataElement", e);
+			if (!(e instanceof ModelClassException)) {
+				log.warn("Exception adapting request " + request.getResource().getPath() + " to ComponentDataElement: ",
+						e);
+			}
+		}
+
+		if (cde == null) {
+			try {
+				cde = (ComponentDataElement) modelFactory.getModelFromResource(resource);
+			} catch (Exception e) {
+				if (!(e instanceof ModelClassException)) {
+					log.warn("Exception adapting resource " + resource + " to ComponentDataElement: ", e);
+				}
+			}
 		}
 
 		if (cde != null) {
-			log.trace("Found ComponentDataElement {} for {}", cde.getClass().getName(), resource);
+			log.debug("Found ComponentDataElement {} for {}", cde.getClass().getName(), resource);
 			cde.updateDataLayer(dataLayerModel);
 		} else {
 			log.trace("No ComponentDataElement found for {}", resource);
