@@ -135,10 +135,14 @@ public class AEMDataLayerInterceptorFilter implements Filter {
 			}
 		}
 
-		if (model != null && model instanceof ComponentDataElement) {
-			ComponentDataElement cde = (ComponentDataElement) model;
-			log.debug("Found ComponentDataElement {} for {}", cde.getClass().getName(), resource);
-			cde.updateDataLayer(dataLayerModel);
+		if (model != null) {
+			if (model instanceof ComponentDataElement) {
+				ComponentDataElement cde = (ComponentDataElement) model;
+				log.debug("Found ComponentDataElement {} for {}", cde.getClass().getName(), resource);
+				cde.updateDataLayer(dataLayerModel);
+			} else {
+				log.debug("Found model of unexpected class {}", model.getClass().getName());
+			}
 		} else {
 			log.trace("No ComponentDataElement found for {}", resource);
 		}
