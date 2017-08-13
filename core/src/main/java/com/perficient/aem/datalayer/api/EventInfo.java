@@ -86,7 +86,7 @@ public class EventInfo extends CategorizableDataObject {
 		put(DATA_KEY_TIMESTAMP, timestamp);
 	}
 
-	public void setType(Date type) {
+	public void setType(String type) {
 		put(DATA_KEY_TYPE, type);
 	}
 
