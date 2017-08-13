@@ -113,11 +113,11 @@ public class AEMDataLayerInterceptorFilter implements Filter {
 	private void updateDataLayer(SlingHttpServletRequest request, DataLayer dataLayerModel) {
 
 		log.trace("Updating DataLayer with {}", request.getResource().getPath());
-		ComponentDataElement cde = null;
+		Object model = null;
 		Resource resource = request.getResource();
 
 		try {
-			cde = (ComponentDataElement) modelFactory.getModelFromRequest(request);
+			model = modelFactory.getModelFromRequest(request);
 		} catch (Exception e) {
 			if (!(e instanceof ModelClassException)) {
 				log.warn("Exception adapting request " + request.getResource().getPath() + " to ComponentDataElement: ",
@@ -125,9 +125,9 @@ public class AEMDataLayerInterceptorFilter implements Filter {
 			}
 		}
 
-		if (cde == null) {
+		if (model == null) {
 			try {
-				cde = (ComponentDataElement) modelFactory.getModelFromResource(resource);
+				model = modelFactory.getModelFromResource(resource);
 			} catch (Exception e) {
 				if (!(e instanceof ModelClassException)) {
 					log.warn("Exception adapting resource " + resource + " to ComponentDataElement: ", e);
@@ -135,7 +135,8 @@ public class AEMDataLayerInterceptorFilter implements Filter {
 			}
 		}
 
-		if (cde != null) {
+		if (model != null && model instanceof ComponentDataElement) {
+			ComponentDataElement cde = (ComponentDataElement) model;
 			log.debug("Found ComponentDataElement {} for {}", cde.getClass().getName(), resource);
 			cde.updateDataLayer(dataLayerModel);
 		} else {
