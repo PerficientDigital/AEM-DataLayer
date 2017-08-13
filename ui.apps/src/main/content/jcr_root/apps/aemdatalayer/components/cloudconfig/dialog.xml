@@ -70,6 +70,7 @@
 		                    xtype="hidden" />
 		                <publisher
 		                    jcr:primaryType="nt:unstructured"
+		                    allowBlank="false"
 		                    fieldLabel="Publisher"
 		                    name="./publisher"
 		                    xtype="textfield" />
