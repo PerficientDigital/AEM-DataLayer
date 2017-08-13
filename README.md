@@ -45,6 +45,16 @@ As this is a Sling Model, you can inject any OSGi Service, Resource property or 
 
 The [ComponentDataElement#updateDataLayer](https://github.com/PerficientDigital/AEM-DataLayer/blob/master/core/src/main/java/com/perficient/aem/datalayer/api/ComponentDataElement.java) method will be called by the AEM DataLayer API when your Sling Model is adapted from a Resource in order to update the DataLayer.
 
+## Getting the Request
+
+Your ComponentDataElement model can also be adapted from a [SlingHttpSerlvetRequest](https://sling.apache.org/apidocs/sling9/org/apache/sling/api/SlingHttpServletRequest.html). This will allow you to access any Request parameters or attributes. Simply specify the adaptable `SlingHttpSerlvetRequest` in your Sling Model definition.
+
+	@Model(adaptables = SlingHttpSerlvetRequest.class, resourceType = {
+		"weretail/components/structure/page" }, adapters = ComponentDataElement.class)
+	public class DefaultPageDataElement implements ComponentDataElement {
+	
+And then use the `@Self` annotation to inject the `SlingHttpSerlvetRequest` as a private class variable. 
+
 ## Configuring the AEM DataLayer Cloud Configuration
 
 Once you have installed the AEM DataLayer package, you can set up and configure it as such:
