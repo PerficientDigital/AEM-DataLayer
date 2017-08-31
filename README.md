@@ -98,5 +98,16 @@ There are three levels of testing contained in the project:
 
     mvn clean integration-test -PintegrationTests
 
+## Releasing
 
+The release process is as follows:
 
+ 1. Build the Code with: `mvn clean install`
+ 2. Update the version with: `mvn versions:set -DnewVersion=[new-version]`
+ 3. Commit the new version: `git commit -a -m "Updating to release version [new-version] && git push"`
+ 4. Tag the code: `git tag [new-version] && git push origin [new-version]`
+ 5. Deploy the code: `mvn deploy`
+ 6. Update to the new snapshot: `mvn versions:set -DnewVersion=[new-snapshot]`
+ 7. Commit the new snapshot: `git commit -a -m "Updating to snapshot version [new-snapshot] && git push"`
+ 8. Update release notes
+ 
