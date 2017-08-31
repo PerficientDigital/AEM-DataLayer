@@ -13,7 +13,7 @@
 	<parent>
 		<groupId>com.perficient.aem</groupId>
 		<artifactId>aem-datalayer</artifactId>
-		<version>0.2.1-SNAPSHOT</version>
+		<version>0.2.1</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>aem-datalayer.core</artifactId>
