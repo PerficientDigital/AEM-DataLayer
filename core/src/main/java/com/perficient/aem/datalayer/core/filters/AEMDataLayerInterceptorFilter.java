@@ -24,6 +24,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
@@ -31,6 +32,7 @@ import org.apache.felix.scr.annotations.sling.SlingFilter;
 import org.apache.felix.scr.annotations.sling.SlingFilterScope;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.models.factory.ModelClassException;
 import org.apache.sling.models.factory.ModelFactory;
 import org.osgi.framework.Constants;
@@ -115,6 +117,20 @@ public class AEMDataLayerInterceptorFilter implements Filter {
 		log.trace("Updating DataLayer with {}", request.getResource().getPath());
 		Object model = null;
 		Resource resource = request.getResource();
+
+		// Check to make sure we're not about to run into a stack overflow
+		if (resource.getResourceType() != null) {
+			ResourceResolver resolver = request.getResourceResolver();
+			String parentResourceType = resolver.getParentResourceType(resource.getResourceType());
+			Resource parentResource = resolver.getResource(resource.getResourceType());
+			if (parentResource != null) {
+				String grandparentResourcetType = resolver.getParentResourceType(parentResource.getResourceType());
+				if (ObjectUtils.equals(parentResourceType, grandparentResourcetType)) {
+					log.debug("Invalid resource {} with recursive resource type, not evaluating", resource);
+					return;
+				}
+			}
+		}
 
 		try {
 			model = modelFactory.getModelFromRequest(request);
