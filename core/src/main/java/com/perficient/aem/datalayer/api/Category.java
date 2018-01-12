@@ -15,14 +15,23 @@
  */
 package com.perficient.aem.datalayer.api;
 
+import java.util.Map;
+
 /**
  * Represents an object of categories in the data layer.
- * 
+ *
  * @author danklco
  * @see <a href="https://www.w3.org/2013/12/ceddl-201312.pdf">Customer
  *      Experience Digital Data Layer, Section 6.3</a>
  */
 public class Category extends BaseDataObject {
+
+	public Category(Map<String,Object> map){
+		super(map);
+	}
+	public Category(){
+		super();
+	}
 
 	public static final String DATA_KEY_PRIMARY_CATEGORY = "primaryCategory";
 
