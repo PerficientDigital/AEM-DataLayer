@@ -23,7 +23,7 @@ import org.apache.sling.api.wrappers.ValueMapDecorator;
 /**
  * Basic data object which extends ValueMapDecorator allowing for arbitrary keys
  * while still providing named fields.
- * 
+ *
  * @author danklco
  * @see <a href="https://www.w3.org/2013/12/ceddl-201312.pdf">Customer
  *      Experience Digital Data Layer, Section 6.11</a>
@@ -35,6 +35,9 @@ public class BaseDataObject extends ValueMapDecorator {
 	public BaseDataObject() {
 		super(new HashMap<String, Object>());
 	}
+	public BaseDataObject(Map<String, Object> map ) {
+		super(map);
+	}
 
 	/**
 	 * Gets the security object. This can be one of:
@@ -43,7 +46,7 @@ public class BaseDataObject extends ValueMapDecorator {
 	 * <li>An array of access categories</li>
 	 * <li>A Map of fields and access category instances or arrays</li>
 	 * </ul>
-	 * 
+	 *
 	 * @return the security object for this DataLayer Object
 	 */
 	public Object getSecurity() {
@@ -52,7 +55,7 @@ public class BaseDataObject extends ValueMapDecorator {
 
 	/**
 	 * Sets the security object to an access group
-	 * 
+	 *
 	 * @param accessGroup
 	 *            the access group name
 	 */
@@ -62,7 +65,7 @@ public class BaseDataObject extends ValueMapDecorator {
 
 	/**
 	 * Sets the security object to an array of access groups
-	 * 
+	 *
 	 * @param accessGroups
 	 *            the access group names
 	 */
@@ -72,7 +75,7 @@ public class BaseDataObject extends ValueMapDecorator {
 
 	/**
 	 * Sets the security object to a map of properties and access groupss
-	 * 
+	 *
 	 * @param propertyAccess
 	 *            the map of properties and access groupss
 	 */
