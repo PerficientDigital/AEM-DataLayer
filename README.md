@@ -1,4 +1,4 @@
-# AEM DataLayer
+# AEM DataLayer [![Build Status](https://travis-ci.org/PerficientDigital/AEM-DataLayer.svg?branch=master)](https://travis-ci.org/PerficientDigital/AEM-DataLayer)
 
 This project is an implementation of the [Customer Experience Digital Data Layer 1.0](https://www.w3.org/2013/12/ceddl-201312.pdf)
 specification produced by the W3C. 
