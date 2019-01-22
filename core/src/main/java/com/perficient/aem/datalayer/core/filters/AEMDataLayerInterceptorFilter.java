@@ -123,9 +123,9 @@ public class AEMDataLayerInterceptorFilter implements Filter {
 			ResourceResolver resolver = request.getResourceResolver();
 			String parentResourceType = resolver.getParentResourceType(resource.getResourceType());
 			Resource parentResource = resolver.getResource(resource.getResourceType());
-			if (parentResource != null) {
-				String grandparentResourcetType = resolver.getParentResourceType(parentResource.getResourceType());
-				if (ObjectUtils.equals(parentResourceType, grandparentResourcetType)) {
+			if (parentResource != null && parentResourceType != null) {
+				String grandparentResourceType = resolver.getParentResourceType(parentResource.getResourceType());
+				if (ObjectUtils.equals(parentResourceType, grandparentResourceType)) {
 					log.debug("Invalid resource {} with recursive resource type, not evaluating", resource);
 					return;
 				}
