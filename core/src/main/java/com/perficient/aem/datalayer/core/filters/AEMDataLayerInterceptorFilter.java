@@ -134,20 +134,22 @@ public class AEMDataLayerInterceptorFilter implements Filter {
 
 		try {
 			model = modelFactory.getModelFromRequest(request);
-		} catch (Exception e) {
-			if (!(e instanceof ModelClassException)) {
-				log.warn("Exception adapting request " + request.getResource().getPath() + " to ComponentDataElement: ",
-						e);
+			if (!(model instanceof ComponentDataElement)) {
+				model = null;
 			}
+		} catch (ModelClassException mce) {
+			log.warn("Exception adapting request " + request + " to ComponentDataElement: ", mce);
+		} catch (Exception e) {
+			log.debug("Unexpected exception adapting request " + request + " to ComponentDataElement: ", e);
 		}
 
 		if (model == null) {
 			try {
 				model = modelFactory.getModelFromResource(resource);
+			} catch (ModelClassException mce) {
+				log.warn("Exception adapting resource " + resource + " to ComponentDataElement: ", mce);
 			} catch (Exception e) {
-				if (!(e instanceof ModelClassException)) {
-					log.warn("Exception adapting resource " + resource + " to ComponentDataElement: ", e);
-				}
+				log.debug("Unexpected exception adapting resource " + resource + " to ComponentDataElement: ", e);
 			}
 		}
 
