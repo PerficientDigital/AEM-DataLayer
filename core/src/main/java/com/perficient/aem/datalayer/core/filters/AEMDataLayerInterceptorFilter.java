@@ -138,7 +138,7 @@ public class AEMDataLayerInterceptorFilter implements Filter {
 				model = null;
 			}
 		} catch (ModelClassException mce) {
-			log.warn("Exception adapting request " + request + " to ComponentDataElement: ", mce);
+			log.debug("Failed to adapt request " + request + " to ComponentDataElement: ", mce);
 		} catch (Exception e) {
 			log.debug("Unexpected exception adapting request " + request + " to ComponentDataElement: ", e);
 		}
@@ -147,7 +147,7 @@ public class AEMDataLayerInterceptorFilter implements Filter {
 			try {
 				model = modelFactory.getModelFromResource(resource);
 			} catch (ModelClassException mce) {
-				log.warn("Exception adapting resource " + resource + " to ComponentDataElement: ", mce);
+				log.debug("Failed to adapt resource " + resource + " to ComponentDataElement: ", mce);
 			} catch (Exception e) {
 				log.debug("Unexpected exception adapting resource " + resource + " to ComponentDataElement: ", e);
 			}

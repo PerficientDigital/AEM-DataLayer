@@ -61,11 +61,11 @@ public class AEMDataLayerConfig {
 					if (cloudServicePage != null) {
 						return cloudServicePage.getContentResource().adaptTo(AEMDataLayerConfig.class);
 					} else {
-						log.warn("Cloud service not found at {}", cloudService);
+						log.warn("DataLayer cloud service not found at {}", cloudService);
 					}
 				}
 			}
-			log.warn("No Digital Data config found for {}", page.getPath());
+			log.debug("No Digital Data config found for {}", page.getPath());
 		}
 		return null;
 
