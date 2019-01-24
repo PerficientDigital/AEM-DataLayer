@@ -15,11 +15,17 @@
  */
 package com.perficient.aem.datalayer.core;
 
+import java.text.SimpleDateFormat;
+
 import javax.servlet.ServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.day.cq.wcm.api.Page;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.perficient.aem.datalayer.DataLayerConstants;
 import com.perficient.aem.datalayer.api.DataLayer;
 import com.perficient.aem.datalayer.core.models.AEMDataLayerConfig;
@@ -31,13 +37,18 @@ import com.perficient.aem.datalayer.core.models.AEMDataLayerConfig;
  */
 public class DataLayerUtil {
 
+	private static final Logger log = LoggerFactory.getLogger(DataLayerUtil.class);
+
+	private DataLayerUtil() {
+		// hidden
+	}
+
 	public static final DataLayer getDataLayer(ServletRequest request) {
 		return (DataLayer) request.getAttribute(DataLayerConstants.REQUEST_PROPERTY_AEM_DATALAYER);
 	}
 
 	public static final String getSiteSubpath(Page page, AEMDataLayerConfig config) {
-		String path = page.getPath().replace(page.getAbsoluteParent(config.getSiteRootLevel()).getPath(), "");
-		return path;
+		return page.getPath().replace(page.getAbsoluteParent(config.getSiteRootLevel()).getPath(), "");
 	}
 
 	public static final String getSiteUrl(Page page, AEMDataLayerConfig config) {
@@ -46,13 +57,20 @@ public class DataLayerUtil {
 	}
 
 	public static final String toJSON(DataLayer dataLayer) {
-		String json = null;
-		GsonBuilder builder = new GsonBuilder().setDateFormat(DataLayerConstants.DATE_FORMAT);
-		if (dataLayer.getConfig().getPrettyPrint() == true) {
-			builder.setPrettyPrinting();
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.setDateFormat(new SimpleDateFormat(DataLayerConstants.DATE_FORMAT));
+
+		ObjectWriter writer = null;
+		if (dataLayer.getConfig().getPrettyPrint()) {
+			writer = objectMapper.writerWithDefaultPrettyPrinter();
+		} else {
+			writer = objectMapper.writer();
 		}
-		Gson gson = builder.create();
-		json = gson.toJson(dataLayer);
-		return json;
+		try {
+			return writer.writeValueAsString(dataLayer);
+		} catch (JsonProcessingException e) {
+			log.error("Exception writing DataLayer to JSON", e);
+			return "{\"error\":true}";
+		}
 	}
 }
