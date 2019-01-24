@@ -66,6 +66,7 @@ public class AEMDataLayerInterceptorFilter implements Filter {
 
 	@Override
 	public void destroy() {
+		// no need to do anything
 	}
 
 	@Override
@@ -101,14 +102,14 @@ public class AEMDataLayerInterceptorFilter implements Filter {
 			if (config != null) {
 				DataLayer dataLayer = new DataLayer(config, page);
 				request.setAttribute(DataLayerConstants.REQUEST_PROPERTY_AEM_DATALAYER, dataLayer);
-				request.setAttribute(REQUEST_PROPERTY_AEM_DATALAYER_APPLICABLE, new Boolean(true));
+				request.setAttribute(REQUEST_PROPERTY_AEM_DATALAYER_APPLICABLE, Boolean.TRUE);
 				return true;
 			} else {
-				request.setAttribute(REQUEST_PROPERTY_AEM_DATALAYER_APPLICABLE, new Boolean(false));
+				request.setAttribute(REQUEST_PROPERTY_AEM_DATALAYER_APPLICABLE, Boolean.FALSE);
 				return false;
 			}
 		} else {
-			return new Boolean(true).equals(appliable);
+			return Boolean.TRUE.equals(appliable);
 		}
 	}
 

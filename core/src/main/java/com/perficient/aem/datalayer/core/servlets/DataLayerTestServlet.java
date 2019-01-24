@@ -55,11 +55,12 @@ public class DataLayerTestServlet extends SlingSafeMethodsServlet {
 	private static final Logger log = LoggerFactory.getLogger(DataLayerTestServlet.class);
 
 	@Reference
-	private RequestResponseFactory requestResponseFactory;
+	private transient RequestResponseFactory requestResponseFactory;
 
 	@Reference
-	private SlingRequestProcessor requestProcessor;
+	private transient SlingRequestProcessor requestProcessor;
 
+	@Override
 	protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response)
 			throws IOException, ServletException {
 		log.trace("doGet");

@@ -33,7 +33,7 @@ public class CategorizableDataObject extends BaseDataObject {
 	public void addAttribute(String key, Object value){
 		Map<String, Object> attributes = getAttributes();
 		if(attributes == null){
-			attributes = new HashMap<String, Object>();
+			attributes = new HashMap<>();
 			setAttributes(attributes);
 		}
 		attributes.put(key, value);
