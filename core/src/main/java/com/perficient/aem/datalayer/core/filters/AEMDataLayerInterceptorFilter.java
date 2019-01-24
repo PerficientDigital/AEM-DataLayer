@@ -90,6 +90,7 @@ public class AEMDataLayerInterceptorFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
+		// no need to do anything
 	}
 
 	private boolean isApplicable(SlingHttpServletRequest request) {
