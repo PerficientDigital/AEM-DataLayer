@@ -15,7 +15,7 @@
     <groupId>com.perficient.aem</groupId>
     <artifactId>aem-datalayer</artifactId>
     <packaging>pom</packaging>
-    <version>0.3.0</version>
+    <version>0.3.1-SNAPSHOT</version>
     <name>AEM DataLayer</name>
     <description>Sling Models based DataLayer library for Adobe Experience Manager</description>
     <url>https://github.com/PerficientDigital/AEM-DataLayer</url>
