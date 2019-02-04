@@ -33,6 +33,7 @@ import org.apache.felix.scr.annotations.sling.SlingFilterScope;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.models.factory.InvalidAdaptableException;
 import org.apache.sling.models.factory.ModelClassException;
 import org.apache.sling.models.factory.ModelFactory;
 import org.osgi.framework.Constants;
@@ -117,7 +118,7 @@ public class AEMDataLayerInterceptorFilter implements Filter {
 	private void updateDataLayer(SlingHttpServletRequest request, DataLayer dataLayerModel) {
 
 		log.trace("Updating DataLayer with {}", request.getResource().getPath());
-		Object model = null;
+		ComponentDataElement model = null;
 		Resource resource = request.getResource();
 
 		// Check to make sure we're not about to run into a stack overflow
@@ -135,34 +136,28 @@ public class AEMDataLayerInterceptorFilter implements Filter {
 		}
 
 		try {
-			model = modelFactory.getModelFromRequest(request);
-			if (!(model instanceof ComponentDataElement)) {
-				model = null;
+			if (modelFactory.canCreateFromAdaptable(request, ComponentDataElement.class)) {
+				model = modelFactory.createModel(request, ComponentDataElement.class);
 			}
 		} catch (ModelClassException mce) {
-			log.debug("Failed to adapt request " + request + " to ComponentDataElement: ", mce);
+			log.debug("Failed to adapt request {} to ComponentDataElement", request, mce);
 		} catch (Exception e) {
-			log.debug("Unexpected exception adapting request " + request + " to ComponentDataElement: ", e);
+			log.debug("Unexpected exception adapting request {} to ComponentDataElement", request, e);
 		}
 
 		if (model == null) {
 			try {
-				model = modelFactory.getModelFromResource(resource);
+				model = modelFactory.createModel(resource, ComponentDataElement.class);
 			} catch (ModelClassException mce) {
-				log.debug("Failed to adapt resource " + resource + " to ComponentDataElement: ", mce);
+				log.debug("Failed to adapt resource {} to ComponentDataElement", resource, mce);
 			} catch (Exception e) {
-				log.debug("Unexpected exception adapting resource " + resource + " to ComponentDataElement: ", e);
+				log.debug("Unexpected exception adapting resource {} to ComponentDataElement", resource, e);
 			}
 		}
 
 		if (model != null) {
-			if (model instanceof ComponentDataElement) {
-				ComponentDataElement cde = (ComponentDataElement) model;
-				log.debug("Found ComponentDataElement {} for {}", cde.getClass().getName(), resource);
-				cde.updateDataLayer(dataLayerModel);
-			} else {
-				log.debug("Found model of unexpected class {}", model.getClass().getName());
-			}
+			log.debug("Found ComponentDataElement {} for {}", model.getClass().getName(), resource);
+			model.updateDataLayer(dataLayerModel);
 		} else {
 			log.trace("No ComponentDataElement found for {}", resource);
 		}
