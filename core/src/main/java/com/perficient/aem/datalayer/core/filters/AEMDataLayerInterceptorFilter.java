@@ -16,6 +16,8 @@
 package com.perficient.aem.datalayer.core.filters;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -24,7 +26,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
@@ -33,7 +34,6 @@ import org.apache.felix.scr.annotations.sling.SlingFilterScope;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
-import org.apache.sling.models.factory.InvalidAdaptableException;
 import org.apache.sling.models.factory.ModelClassException;
 import org.apache.sling.models.factory.ModelFactory;
 import org.osgi.framework.Constants;
@@ -116,23 +116,13 @@ public class AEMDataLayerInterceptorFilter implements Filter {
 	}
 
 	private void updateDataLayer(SlingHttpServletRequest request, DataLayer dataLayerModel) {
-
 		log.trace("Updating DataLayer with {}", request.getResource().getPath());
 		ComponentDataElement model = null;
 		Resource resource = request.getResource();
 
-		// Check to make sure we're not about to run into a stack overflow
-		if (resource.getResourceType() != null) {
-			ResourceResolver resolver = request.getResourceResolver();
-			String parentResourceType = resolver.getParentResourceType(resource.getResourceType());
-			Resource parentResource = resolver.getResource(resource.getResourceType());
-			if (parentResource != null && parentResourceType != null) {
-				String grandparentResourceType = resolver.getParentResourceType(parentResource.getResourceType());
-				if (ObjectUtils.equals(parentResourceType, grandparentResourceType)) {
-					log.debug("Invalid resource {} with recursive resource type, not evaluating", resource);
-					return;
-				}
-			}
+		if (resourceHierarchyHasACycle(resource)) {
+			log.debug("Invalid resource {} with recursive resource type, not evaluating", resource);
+			return;
 		}
 
 		try {
@@ -161,6 +151,25 @@ public class AEMDataLayerInterceptorFilter implements Filter {
 		} else {
 			log.trace("No ComponentDataElement found for {}", resource);
 		}
+	}
+
+	private boolean resourceHierarchyHasACycle(Resource resource) {
+		String resourceType = resource.getResourceType();
+		Set<String> resourceTypeSet = new HashSet<>();
+
+		ResourceResolver resolver = resource.getResourceResolver();
+
+		while (resourceType != null) {
+			if (resourceTypeSet.contains(resourceType)) {
+				log.trace("Found a cycle in the resource type hierarchy for {}", resourceType);
+				return true;
+			}
+
+			resourceTypeSet.add(resourceType);
+			resourceType = resolver.getParentResourceType(resource.getResourceType());
+		}
+
+		return false;
 	}
 
 }
