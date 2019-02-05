@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import com.day.cq.commons.inherit.HierarchyNodeInheritanceValueMap;
 import com.day.cq.commons.inherit.InheritanceValueMap;
 import com.day.cq.wcm.api.Page;
+import com.perficient.aem.datalayer.DataLayerConstants;
 
 /**
  * Cloud configuration for the AEM DataLayer.
@@ -36,11 +37,7 @@ import com.day.cq.wcm.api.Page;
 @Model(adaptables = Resource.class)
 public class AEMDataLayerConfig {
 
-	public static final String AEM_DATALAYER_CONFIG_PATH = "/etc/cloudservices/aemdatalayer";
-
 	private static final Logger log = LoggerFactory.getLogger(AEMDataLayerConfig.class);
-
-	public static final String PN_CLOUD_SERVICE_CONFIGS = "cq:cloudserviceconfigs";
 
 	/**
 	 * Retrieves the DataLayer config for the page or none if it is not
@@ -54,9 +51,9 @@ public class AEMDataLayerConfig {
 		if (page != null) {
 			log.trace("Finding Digital Data config for {}", page.getPath());
 			InheritanceValueMap properties = new HierarchyNodeInheritanceValueMap(page.getContentResource());
-			String[] cloudServices = properties.getInherited(PN_CLOUD_SERVICE_CONFIGS, new String[0]);
+			String[] cloudServices = properties.getInherited(DataLayerConstants.PN_CLOUD_SERVICE_CONFIGS, new String[0]);
 			for (String cloudService : cloudServices) {
-				if (cloudService.startsWith(AEM_DATALAYER_CONFIG_PATH)) {
+				if (cloudService.startsWith(DataLayerConstants.AEM_DATALAYER_CONFIG_PATH)) {
 					Page cloudServicePage = page.getPageManager().getContainingPage(cloudService);
 					if (cloudServicePage != null) {
 						return cloudServicePage.getContentResource().adaptTo(AEMDataLayerConfig.class);
