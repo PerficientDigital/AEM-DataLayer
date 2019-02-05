@@ -153,7 +153,7 @@ public class AEMDataLayerInterceptorFilter implements Filter {
 		}
 	}
 
-	private boolean resourceHierarchyHasACycle(Resource resource) {
+	boolean resourceHierarchyHasACycle(Resource resource) {
 		String resourceType = resource.getResourceType();
 		Set<String> resourceTypeSet = new HashSet<>();
 
