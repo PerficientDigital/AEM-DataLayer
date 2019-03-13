@@ -16,6 +16,8 @@
 package com.perficient.aem.datalayer.core.filters;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -24,7 +26,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
@@ -115,57 +116,60 @@ public class AEMDataLayerInterceptorFilter implements Filter {
 	}
 
 	private void updateDataLayer(SlingHttpServletRequest request, DataLayer dataLayerModel) {
-
 		log.trace("Updating DataLayer with {}", request.getResource().getPath());
-		Object model = null;
+		ComponentDataElement model = null;
 		Resource resource = request.getResource();
 
-		// Check to make sure we're not about to run into a stack overflow
-		if (resource.getResourceType() != null) {
-			ResourceResolver resolver = request.getResourceResolver();
-			String parentResourceType = resolver.getParentResourceType(resource.getResourceType());
-			Resource parentResource = resolver.getResource(resource.getResourceType());
-			if (parentResource != null && parentResourceType != null) {
-				String grandparentResourceType = resolver.getParentResourceType(parentResource.getResourceType());
-				if (ObjectUtils.equals(parentResourceType, grandparentResourceType)) {
-					log.debug("Invalid resource {} with recursive resource type, not evaluating", resource);
-					return;
-				}
-			}
+		if (resourceHierarchyHasACycle(resource)) {
+			log.debug("Invalid resource {} with recursive resource type, not evaluating", resource);
+			return;
 		}
 
 		try {
-			model = modelFactory.getModelFromRequest(request);
-			if (!(model instanceof ComponentDataElement)) {
-				model = null;
+			if (modelFactory.canCreateFromAdaptable(request, ComponentDataElement.class)) {
+				model = modelFactory.createModel(request, ComponentDataElement.class);
 			}
 		} catch (ModelClassException mce) {
-			log.debug("Failed to adapt request " + request + " to ComponentDataElement: ", mce);
+			log.debug("Failed to adapt request {} to ComponentDataElement", request, mce);
 		} catch (Exception e) {
-			log.debug("Unexpected exception adapting request " + request + " to ComponentDataElement: ", e);
+			log.debug("Unexpected exception adapting request {} to ComponentDataElement", request, e);
 		}
 
 		if (model == null) {
 			try {
-				model = modelFactory.getModelFromResource(resource);
+				model = modelFactory.createModel(resource, ComponentDataElement.class);
 			} catch (ModelClassException mce) {
-				log.debug("Failed to adapt resource " + resource + " to ComponentDataElement: ", mce);
+				log.debug("Failed to adapt resource {} to ComponentDataElement", resource, mce);
 			} catch (Exception e) {
-				log.debug("Unexpected exception adapting resource " + resource + " to ComponentDataElement: ", e);
+				log.debug("Unexpected exception adapting resource {} to ComponentDataElement", resource, e);
 			}
 		}
 
 		if (model != null) {
-			if (model instanceof ComponentDataElement) {
-				ComponentDataElement cde = (ComponentDataElement) model;
-				log.debug("Found ComponentDataElement {} for {}", cde.getClass().getName(), resource);
-				cde.updateDataLayer(dataLayerModel);
-			} else {
-				log.debug("Found model of unexpected class {}", model.getClass().getName());
-			}
+			log.debug("Found ComponentDataElement {} for {}", model.getClass().getName(), resource);
+			model.updateDataLayer(dataLayerModel);
 		} else {
 			log.trace("No ComponentDataElement found for {}", resource);
 		}
+	}
+
+	boolean resourceHierarchyHasACycle(Resource resource) {
+		String resourceType = resource.getResourceType();
+		Set<String> resourceTypeSet = new HashSet<>();
+
+		ResourceResolver resolver = resource.getResourceResolver();
+
+		while (resourceType != null) {
+			if (resourceTypeSet.contains(resourceType)) {
+				log.trace("Found a cycle in the resource type hierarchy for {}", resourceType);
+				return true;
+			}
+
+			resourceTypeSet.add(resourceType);
+			resourceType = resolver.getParentResourceType(resource.getResourceType());
+		}
+
+		return false;
 	}
 
 }

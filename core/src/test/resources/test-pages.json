@@ -1,0 +1,49 @@
+{
+  "page-with-cloud-config": {
+    "jcr:primaryType": "cq:Page",
+    "jcr:content": {
+      "jcr:primaryType": "cq:PageContent",
+      "sling:resourceType": "some/resource/type",
+      "cq:cloudserviceconfigs": [
+        "/etc/cloudservices/aemdatalayer/config"
+      ]
+    }
+  },
+  "page-without-cloud-config": {
+    "jcr:primaryType": "cq:Page",
+    "jcr:content": {
+      "jcr:primaryType": "cq:PageContent",
+      "sling:resourceType": "some/resource/type"
+    }
+  },
+  "pages-with-cycles": {
+    "with-a-self-cycle": {
+      "jcr:primaryType": "cq:Page",
+      "jcr:content": {
+        "jcr:primaryType": "cq:PageContent",
+        "sling:resourceType": "some/resource/type/with-a-self-cycle/child"
+      }
+    },
+    "with-a-parent-child-cycle": {
+      "jcr:primaryType": "cq:Page",
+      "jcr:content": {
+        "jcr:primaryType": "cq:PageContent",
+        "sling:resourceType": "some/resource/type/with-a-parent-child-cycle/child"
+      }
+    },
+    "with-a-grandparent-child-cycle": {
+      "jcr:primaryType": "cq:Page",
+      "jcr:content": {
+        "jcr:primaryType": "cq:PageContent",
+        "sling:resourceType": "some/resource/type/with-a-grandparent-child-cycle/child"
+      }
+    },
+    "with-a-grandparent-parent-cycle": {
+      "jcr:primaryType": "cq:Page",
+      "jcr:content": {
+        "jcr:primaryType": "cq:PageContent",
+        "sling:resourceType": "some/resource/type/with-a-grandparent-parent-cycle/child"
+      }
+    }
+  }
+}

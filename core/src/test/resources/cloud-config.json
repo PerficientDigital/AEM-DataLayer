@@ -1,0 +1,15 @@
+{
+  "aemdatalayer": {
+    "config": {
+      "jcr:primaryType": "cq:Page",
+      "jcr:content": {
+        "jcr:primaryType": "cq:PageContent",
+        "environment": "test",
+        "objectName": "test",
+        "siteId": "test",
+        "urlPrefix": "test",
+        "siteRootLevel": 1
+      }
+    }
+  }
+}

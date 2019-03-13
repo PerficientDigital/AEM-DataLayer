@@ -1,0 +1,50 @@
+{
+  "some": {
+    "resource": {
+      "type": {
+        "with-a-parent": {
+          "child": {
+            "sling:resourceSuperType": "some/resource/type/with-a-parent/parent"
+          },
+          "parent": {
+          }
+        },
+        "with-a-self-cycle": {
+          "child": {
+            "sling:resourceSuperType": "some/resource/type/with-a-self-cycle/child"
+          }
+        },
+        "with-a-parent-child-cycle": {
+          "child": {
+            "sling:resourceSuperType": "some/resource/type/with-a-parent-child-cycle/parent"
+          },
+          "parent": {
+            "sling:resourceSuperType": "some/resource/type/with-a-parent-child-cycle/child"
+          }
+        },
+        "with-a-grandparent-child-cycle": {
+          "child": {
+            "sling:resourceSuperType": "some/resource/type/with-a-parent-child-cycle/parent"
+          },
+          "parent": {
+            "sling:resourceSuperType": "some/resource/type/with-a-parent-child-cycle/grand-parent"
+          },
+          "grand-parent": {
+            "sling:resourceSuperType": "some/resource/type/with-a-parent-child-cycle/child"
+          }
+        },
+        "with-a-grandparent-parent-cycle": {
+          "child": {
+            "sling:resourceSuperType": "some/resource/type/with-a-parent-child-cycle/parent"
+          },
+          "parent": {
+            "sling:resourceSuperType": "some/resource/type/with-a-parent-child-cycle/grand-parent"
+          },
+          "grand-parent": {
+            "sling:resourceSuperType": "some/resource/type/with-a-parent-child-cycle/parent"
+          }
+        }
+      }
+    }
+  }
+}

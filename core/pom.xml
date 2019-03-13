@@ -15,7 +15,7 @@
     <parent>
         <groupId>com.perficient.aem</groupId>
         <artifactId>aem-datalayer</artifactId>
-        <version>0.3.0</version>
+        <version>0.3.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>aem-datalayer.core</artifactId>
@@ -132,7 +132,7 @@
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
+            <artifactId>javax.servlet-api</artifactId>
         </dependency>
         <dependency>
             <groupId>commons-lang</groupId>
@@ -169,6 +169,23 @@
         <dependency>
             <groupId>org.apache.sling</groupId>
             <artifactId>org.apache.sling.engine</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.adobe.aem</groupId>
+            <artifactId>uber-jar</artifactId>
+            <classifier>apis</classifier>
+        </dependency>
+        <dependency>
+            <groupId>io.wcm</groupId>
+            <artifactId>io.wcm.testing.aem-mock.junit4</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.sling</groupId>
+            <artifactId>org.apache.sling.models.impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
         </dependency>
     </dependencies>
 </project>
